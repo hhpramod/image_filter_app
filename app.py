@@ -3,7 +3,6 @@ import base64
 import cv2
 from PIL import Image
 #from filters import *
-import cv2
 import numpy as np
 import streamlit as st
 from scipy.interpolate import UnivariateSpline
