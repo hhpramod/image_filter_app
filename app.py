@@ -8,12 +8,12 @@ import numpy as np
 import streamlit as st
 from scipy.interpolate import UnivariateSpline
 
-@st.cache
+@st.cache_data
 def bw_filter(img):
     img_gray = cv2.cvtColor(img , cv2.COLOR_BGR2GRAY)
     return img_gray
 
-@st.cache
+@st.cache_data
 def vignette(img, level=2):
     height, width = img.shape[:2]
 
@@ -33,7 +33,7 @@ def vignette(img, level=2):
 
     return img_vignette
 
-@st.cache
+@st.cache_data
 def sepia(img):
         img_sepia = img.copy()
         # Converting to RGB as sepia matrix below is for RGB.
@@ -48,24 +48,24 @@ def sepia(img):
         img_sepia = cv2.cvtColor(img_sepia, cv2.COLOR_RGB2BGR)
         return img_sepia
 
-@st.cache
+@st.cache_data
 def pencil_sketch(img, ksize=5):
     img_blur = cv2.GaussianBlur(img, (ksize, ksize), 0, 0)
     img_sketch, _ = cv2.pencilSketch(img_blur)
     return img_sketch
 
-@st.cache
+@st.cache_data
 def stylization(img, sigma_s = 10, sigma_r = 0.1):
     img_blur = cv2.GaussianBlur(img, (5,5), 0, 0)
     img_style = cv2.stylization(img_blur, sigma_s = sigma_s, sigma_r = sigma_r)
     return img_style
 
-@st.cache
+@st.cache_data
 def blur_img(img, k=9):
     blur = cv2.GaussianBlur(img, (k,k), 0, 0)
     return blur
 
-@st.cache
+@st.cache_data
 def sharping_filter(img, k=5):
     kernel = np.array([[ 0, -1,  0],
                        [-1,  k, -1],
@@ -75,17 +75,17 @@ def sharping_filter(img, k=5):
     img_sharp = np.clip(img_sharp, 0, 255)
     return img_sharp
 
-@st.cache
+@st.cache_data
 def HDR(img):
     img_hdr = cv2.detailEnhance(img, sigma_s = 10, sigma_r = 0.1)
     return img_hdr
 
-@st.cache
+@st.cache_data
 def invert(img):
     img_inv = cv2.bitwise_not(img)
     return img_inv
 
-@st.cache
+@st.cache_data
 def warm_filter(img):
     # We are giving y values for a set of x values.
     # And calculating y for [0-255] x values accordingly to the given range.
@@ -106,7 +106,7 @@ def warm_filter(img):
     img_warm = cv2.merge((blue_channel, green_channel, red_channel))
     return img_warm
 
-@st.cache
+@st.cache_data
 def Cold_filter(img):
     # We are giving y values for a set of x values.
     # And calculating y for [0-255] x values accordingly to the given range.
@@ -127,7 +127,7 @@ def Cold_filter(img):
     img_cold = cv2.merge((blue_channel, green_channel, red_channel))
     return img_cold
 
-@st.cache
+@st.cache_data
 def embossed_edges(img):
     kernel = np.array([[0, -3, -3],
                        [3,  0, -3],
@@ -136,7 +136,7 @@ def embossed_edges(img):
     img_emboss = cv2.filter2D(img, -1, kernel=kernel)
     return img_emboss
 
-@st.cache
+@st.cache_data
 def right_sobel(img):
     # Right Sobel Filter
     kernel = np.array([[-1, 0, 1],
@@ -146,12 +146,12 @@ def right_sobel(img):
     sobel_img = cv2.filter2D(img, -1, kernel, borderType = cv2.BORDER_REPLICATE)
     return sobel_img
 
-@st.cache
+@st.cache_data
 def bright(img, level):
     img_bright = cv2.convertScaleAbs(img, beta = level)
     return img_bright
 
-@st.cache
+@st.cache_data
 def outline(img, k=9):
     k = max(k, 9)
     kernel = np.array([[-1, -1, -1],
